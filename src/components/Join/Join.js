@@ -1,11 +1,30 @@
-import React from "react";
+import React ,{useRef} from "react";
+import emailjs from '@emailjs/browser'
 import "./Join.css";
 
 const Join = () => {
+const form = useRef()
+const sendEmail = (e) => {
+  e.preventDefault();
+
+  emailjs
+    .sendForm("service_e3kmdo9", "template_q1jvkkh", form.current, {
+      publicKey: "4T2ILp_L6hQFADlzx",
+    })
+    .then(
+      () => {
+        console.log("SUCCESS!");
+      },
+      (error) => {
+        console.log("FAILED...", error.text);
+      }
+    );
+};
+
   return (
     <div className="Join" id="join-us">
       <div className="left-j">
-      <hr/>
+        <hr />
         <div>
           <span className="stroke-text">READY TO</span>
           <span>LEVEL UP</span>
@@ -16,9 +35,13 @@ const Join = () => {
         </div>
       </div>
       <div className="right-j">
-        <form action="" className="email-container">
-            <input type="email" name="user-email" placeholder="Enter your Email address"/>
-            <button className="btn btn-j">Join Now</button>
+        <form ref={form} className="email-container" onSubmit={sendEmail}>
+          <input
+            type="email"
+            name="user_email"
+            placeholder="Enter your Email address"
+          />
+          <button className="btn btn-j">Join Now</button>
         </form>
       </div>
     </div>
